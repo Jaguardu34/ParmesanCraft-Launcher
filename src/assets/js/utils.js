@@ -50,37 +50,41 @@ async function appdata() {
 }
 
 async function addAccount(data) {
-    let skin = false
-    if (data?.profile?.skins[0]?.base64) skin = await new skin2D().creatHeadTexture(data.profile.skins[0].base64);
+    // Utilise MineSkin.eu pour obtenir la tête du joueur instantanément
+    const skin = `https://mineskin.eu/helm/${data.name}/100.png`;
+
     let div = document.createElement("div");
     div.classList.add("account");
     div.id = data.ID;
     div.innerHTML = `
-        <div class="profile-image" ${skin ? 'style="background-image: url(' + skin + ');"' : ''}></div>
+        <div class="profile-image" style="background-image: url(${skin});"></div>
         <div class="profile-infos">
             <div class="profile-pseudo">${data.name}</div>
-            <div class="profile-uuid">${data.uuid}</div>
+            <div class="profile-uuid">${data.uuid || "Offline Account"}</div>
         </div>
         <div class="delete-profile" id="${data.ID}">
             <div class="icon-account-delete delete-profile-icon"></div>
         </div>
-    `
+    `;
     return document.querySelector('.accounts-list').appendChild(div);
 }
 
 async function accountSelect(data) {
     let account = document.getElementById(`${data.ID}`);
-    let activeAccount = document.querySelector('.account-select')
+    let activeAccount = document.querySelector('.account-select');
 
     if (activeAccount) activeAccount.classList.toggle('account-select');
     account.classList.add('account-select');
-    if (data?.profile?.skins[0]?.base64) headplayer(data.profile.skins[0].base64);
+
+    await headplayer(data.name);
 }
 
-async function headplayer(skinBase64) {
-    let skin = await new skin2D().creatHeadTexture(skinBase64);
+async function headplayer(username) {
+    // Tête du joueur depuis MineSkin (affichage instantané)
+    const skin = `https://mineskin.eu/helm/${username}/100.png`;
     document.querySelector(".player-head").style.backgroundImage = `url(${skin})`;
 }
+
 
 async function setStatus(opt) {
     let nameServerElement = document.querySelector('.server-status-name')
