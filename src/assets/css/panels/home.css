@@ -192,6 +192,11 @@
     cursor: pointer;
     align-items: center;
     justify-content: center;
+    transition: background 0.5s ease;
+}
+
+.social-block:hover{
+    background: var(--background-element);
 }
 
 .social-block .icon-social {
@@ -268,7 +273,13 @@
     font-size: 2rem;
     font-weight: bolder;
     padding: 0 1.5rem;
-    pointer-events: none;
+    transform: scale(1);
+    transition: transform 0.5s ease;
+}
+.play-btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+
 }
 
 .instance-select {
@@ -285,6 +296,13 @@
     border-radius: 15px;
     padding: 0 0.5rem;
     cursor: pointer;
+    transform: scale(1);
+    transition: transform 0.5s ease;
+    background-color: var(--background);
+}
+
+.instance-select:hover {
+    transform: scale(1.1);
 }
 
 .instance-select:before {
@@ -320,6 +338,14 @@
     font-size: 3rem;
     color: var(--element-color);
     margin: 0 1.5rem;
+    transform: scale(1);
+    transition: transform 0.5s ease, color 0.5s ease;
+}
+
+.settings-btn:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    color: black;
 }
 
 .instance-popup {
@@ -367,12 +393,28 @@
     margin: 0.5rem 0;
     font-size: 1.5rem;
     cursor: pointer;
+    transform: scale(1);
+    transition: transform 0.5s ease, background 0.5s ease;
 }
 
 .instance-elements:hover {
-    background: var(--element-color);
+    background: color-mix(in srgb, var(--element-color) 60%, black);
+    transform: scale(1.05);
 }
 
 .active-instance {
     background: var(--element-color);
+}
+
+
+.tooltip {
+  position: fixed;
+  background: #222;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s;
 }
