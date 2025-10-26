@@ -418,3 +418,22 @@
   opacity: 0;
   transition: opacity 0.1s;
 }
+
+.list-player{
+    position: relative;
+    display: grid;
+    background: var(--background);
+    width: 25rem;
+    height: 3rem;
+    color: var(--color);
+    border-radius: 10px;
+    margin-top: 3rem;
+    padding: 1rem;
+    text-align: center;
+    margin-left: 1rem;
+    overflow: auto;
+}
+
+.server-infos {
+    display: inline-flex;
+}

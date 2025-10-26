@@ -1,12 +1,17 @@
-<div class="container">
-    <div class="status-server">
-        <img class="server-status-icon" src="assets/images/icon.png">
-        <div class="server-status-infos">
-            <div title="play.parmesancraft.fr" class="server-status-name">Minecraft</div>
-            <div class="server-status-text" title="Info sur l'état du serveur">operationeel - 0 ms</div>
+<div  class="container">
+    <div class="server-infos">
+        <div class="status-server">
+            <img class="server-status-icon" src="assets/images/icon.png">
+            <div class="server-status-infos">
+                <div title="play.parmesancraft.fr" class="server-status-name">Minecraft</div>
+                <div class="server-status-text" title="Info sur l'état du serveur">operationel - 0 ms</div>
+            </div>
+            <div class="status-player-count">
+                <div class="player-count" title="Nombre de joueurs connectés au serveur">0</div>
+            </div>
         </div>
-        <div class="status-player-count">
-            <div class="player-count" title="Nombre de joueurs connectés au serveur">0</div>
+        <div id="list-players" class="list-player">
+            <div style="font-size: 1.2rem;">Joueurs connectés :</div>
         </div>
     </div>
 
@@ -60,3 +65,4 @@
     </div>
 </div>
 <script src="/src/assets/js/utils/tooltips.js"></script>
+<script src="/src/assets/js/utils/listplayers.js"></script>

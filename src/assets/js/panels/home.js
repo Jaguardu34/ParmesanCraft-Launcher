@@ -7,15 +7,44 @@ import { config, database, logger, changePanel, appdata, setStatus, pkg, popup }
 const { Launch } = require('minecraft-java-core')
 const { shell, ipcRenderer } = require('electron')
 
+const ip = "play.parmesancraft.fr"
+
 class Home {
     static id = "home";
     async init(config) {
         this.config = config;
         this.db = new database();
+        this.loadPlayer()
         this.news()
         this.socialLick()
         this.instancesSelect()
         document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'))
+    }
+
+    async loadPlayer() {
+        const requestURL =`https://api.mcsrvstat.us/2/${encodeURIComponent(ip)}`;
+        const response = await fetch(requestURL)
+        const jsonObj = await response.json();
+        
+        if (jsonObj.players && Array.isArray(jsonObj.players.list)) {
+            const players = jsonObj.players.list;
+            if (players.length !== 0) {
+                for (let i = 0; i < players.length; i++) {
+                    this.addPlayerList(players[i]);
+                }
+            }
+            else {
+                this.addPlayerList("Aucun joueurs connectés")
+            }
+        }   
+    }
+
+    async addPlayerList(pseudo) {
+        let container = document.querySelector('.list-player');
+        let newPlayer = document.createElement('div'); 
+        newPlayer.classList.add('player');
+        newPlayer.textContent = pseudo;
+        container.appendChild(newPlayer);
     }
 
     async news() {
@@ -29,7 +58,7 @@ class Home {
                     <div class="news-header">
                         <img class="server-status-icon" src="assets/images/icon.png">
                         <div class="header-text">
-                            <div class="title">Aucun news n'ai actuellement disponible.</div>
+                            <div class="title">Aucun news n'est actuellement disponible.</div>
                         </div>
                         <div class="date">
                             <div class="day">1</div>
@@ -38,7 +67,7 @@ class Home {
                     </div>
                     <div class="news-content">
                         <div class="bbWrapper">
-                            <p>Vous pourrez suivre ici toutes les news relative au serveur.</p>
+                            <p>Vous pourrez suivre ici toutes les news relatives au serveur.</p>
                         </div>
                     </div>`
                 newsElement.appendChild(blockNews);
@@ -344,5 +373,6 @@ class Home {
         let allMonth = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
         return { year: year, month: allMonth[month - 1], day: day }
     }
+    
 }
 export default Home;
