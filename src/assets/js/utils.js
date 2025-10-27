@@ -76,14 +76,8 @@ async function accountSelect(data) {
     if (activeAccount) activeAccount.classList.toggle('account-select');
     account.classList.add('account-select');
 
-    await headplayer(data.name);
 }
 
-async function headplayer(username) {
-    // Tête du joueur depuis MineSkin (affichage instantané)
-    const skin = `https://mineskin.eu/helm/${username}/100.png`;
-    document.querySelector(".player-head").style.backgroundImage = `url(${skin})`;
-}
 
 
 async function setStatus(opt) {

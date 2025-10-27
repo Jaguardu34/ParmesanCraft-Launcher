@@ -18,7 +18,24 @@ class Home {
         this.news()
         this.socialLick()
         this.instancesSelect()
+        this.loadPlayerHead()
         document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'))
+    }
+
+    async loadPlayerHead() {
+        const playerHead = document.querySelector('.player-head');
+        const db = new database();
+
+        // Récupère la configuration du launcher
+        const configClient = await db.readData('configClient');
+
+        // Récupère le compte sélectionné
+        const account = await db.readData('accounts', configClient.account_selected);
+
+        if (!account) return; // sécurité si aucun compte n'est sélectionné
+
+        // Affiche la tête du joueur
+        playerHead.style.backgroundImage = `url(https://parmesancraft.fr/api/skin-api/avatars/face/${encodeURIComponent(account.name)})`;
     }
 
     async loadPlayer() {
