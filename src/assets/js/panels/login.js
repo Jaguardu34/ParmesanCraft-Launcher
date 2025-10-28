@@ -10,22 +10,18 @@ import { popup, database, changePanel, accountSelect, addAccount, config, setSta
 class Login {
     static id = "login";
     async init(config) {
-        this.config = config;
-        this.db = new database();
+    this.config = config;
+    this.db = new database();
 
-        if (typeof this.config.online == 'boolean') {
-            this.config.online ? this.getMicrosoft() : this.getCrack()
-        } else if (typeof this.config.online == 'string') {
-            if (this.config.online.match(/^(http|https):\/\/[^ "]+$/)) {
-                this.getAZauth();
-            }
-        }
-        
-        document.querySelector('.cancel-home').addEventListener('click', () => {
-            document.querySelector('.cancel-home').style.display = 'none'
-            changePanel('settings')
-        })
+    // Forcer AZauth toujours
+    this.getAZauth();
+
+    document.querySelector('.cancel-home').addEventListener('click', () => {
+        document.querySelector('.cancel-home').style.display = 'none'
+        changePanel('settings')
+    })
     }
+
 
     async getMicrosoft() {
         console.log('Initializing Microsoft login...');

@@ -50,8 +50,9 @@ async function appdata() {
 }
 
 async function addAccount(data) {
-    // Utilise MineSkin.eu pour obtenir la tête du joueur instantanément
-    const skin = `https://mineskin.eu/helm/${data.name}/100.png`;
+
+    // Affiche la tête du joueur
+    const skin = `https://parmesancraft.fr/api/skin-api/avatars/face/${data.name}`;
 
     let div = document.createElement("div");
     div.classList.add("account");

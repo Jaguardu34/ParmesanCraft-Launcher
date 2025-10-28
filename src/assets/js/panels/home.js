@@ -18,7 +18,9 @@ class Home {
         this.news()
         this.socialLick()
         this.instancesSelect()
-        this.loadPlayerHead()
+        setInterval(() => {
+        this.loadPlayerHead();
+        }, 1000);
         document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'))
     }
 
