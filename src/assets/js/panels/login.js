@@ -8,20 +8,19 @@ const { ipcRenderer } = require('electron');
 import { popup, database, changePanel, accountSelect, addAccount, config, setStatus } from '../utils.js';
 
 class Login {
+    
     static id = "login";
     async init(config) {
-    this.config = config;
-    this.db = new database();
+        this.config = config;
+        this.db = new database();
 
-    // Forcer AZauth toujours
-    this.getAZauth();
-
-    document.querySelector('.cancel-home').addEventListener('click', () => {
-        document.querySelector('.cancel-home').style.display = 'none'
-        changePanel('settings')
-    })
+        this.getAZauth();
+        
+        document.querySelector('.cancel-home').addEventListener('click', () => {
+            document.querySelector('.cancel-home').style.display = 'none'
+            changePanel('settings')
+        })
     }
-
 
     async getMicrosoft() {
         console.log('Initializing Microsoft login...');

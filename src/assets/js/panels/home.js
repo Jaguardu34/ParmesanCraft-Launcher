@@ -19,13 +19,22 @@ class Home {
         this.socialLick()
         this.instancesSelect()
         setInterval(() => {
-        this.loadPlayerHead();
-        }, 1000);
+        this.loadPlayerHead()
+        }, 5000);
+        this.loadPlayerHead() 
         document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'))
     }
 
+    async downloadSkin(playerName) {
+        const result = await ipcRenderer.invoke('download-player-skin', playerName);
+        console.log(result);
+    }
+    
+
     async loadPlayerHead() {
         const playerHead = document.querySelector('.player-head');
+        const wrapper = document.querySelector('.player-options');
+
         const db = new database();
 
         // Récupère la configuration du launcher
@@ -34,10 +43,15 @@ class Home {
         // Récupère le compte sélectionné
         const account = await db.readData('accounts', configClient.account_selected);
 
-        if (!account) return; // sécurité si aucun compte n'est sélectionné
+        const skinURL = `https://parmesancraft.fr/api/skin-api/avatars/face/${encodeURIComponent(account.name)}`;
 
-        // Affiche la tête du joueur
-        playerHead.style.backgroundImage = `url(https://parmesancraft.fr/api/skin-api/avatars/face/${encodeURIComponent(account.name)})`;
+        if (!account) return; // sécurité si aucun compte n'est sélectionné
+        const timestamp = new Date().getTime();
+        playerHead.style.backgroundImage = `url(${skinURL}?v=${timestamp})`; // force refresh sans flash visible
+        setTimeout(() => {
+            wrapper.style.backgroundImage = `url(${skinURL}?v=${timestamp})`;
+        }, 500);
+
     }
 
     async loadPlayer() {
@@ -256,7 +270,7 @@ class Home {
         let infoStartingBOX = document.querySelector('.info-starting-game')
         let infoStarting = document.querySelector(".info-starting-game-text")
         let progressBar = document.querySelector('.progress-bar')
-          
+
         let opt = {
             url: options.url,
             authenticator: authenticator,
@@ -294,6 +308,8 @@ class Home {
                 min: `${configClient.java_config.java_memory.min * 1024}M`,
                 max: `${configClient.java_config.java_memory.max * 1024}M`
             }
+            
+
         }
 
         launch.Launch(opt);

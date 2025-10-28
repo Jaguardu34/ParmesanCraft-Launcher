@@ -5,7 +5,8 @@
 
 const { app, ipcMain, nativeTheme } = require('electron');
 const { Microsoft } = require('minecraft-java-core');
-const { autoUpdater } = require('electron-updater')
+const { autoUpdater } = require('electron-updater');
+
 
 const path = require('path');
 const fs = require('fs');
@@ -86,6 +87,10 @@ ipcMain.handle('update-app', async () => {
         })
     })
 })
+
+
+
+
 
 autoUpdater.on('update-available', () => {
     const updateWindow = UpdateWindow.getWindow();

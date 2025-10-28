@@ -97,7 +97,7 @@ class Launcher {
                     java_path: null,
                     java_memory: {
                         min: 2,
-                        max: 4
+                        max: 6
                     }
                 },
                 game_config: {
@@ -239,13 +239,27 @@ class Launcher {
             account_selected = configClient ? configClient.account_selected : null
 
             if (!account_selected) {
-                let uuid = accounts[0].ID
-                if (uuid) {
-                    configClient.account_selected = uuid
-                    await this.db.updateData('configClient', configClient)
-                    accountSelect(uuid)
+                let firstAccount = accounts[0];
+
+                if (firstAccount && firstAccount.ID) {
+                    // 🔍 Vérifie le type du compte
+                    if (account.meta.type !== 'AZauth') {
+                        // Si le type n'est pas celui qu'on veut, on force la connexion
+                        configClient.account_selected = null;
+                        await this.db.updateData('configClient', configClient);
+
+                        popupRefresh.closePopup();
+                        return changePanel("login");
+                    }
+
+                    // ✅ Si le type est correct, on sélectionne le compte
+                    let uuid = firstAccount.ID;
+                    configClient.account_selected = uuid;
+                    await this.db.updateData('configClient', configClient);
+                    accountSelect(uuid);
                 }
             }
+
 
             if (!accounts.length) {
                 config.account_selected = null
