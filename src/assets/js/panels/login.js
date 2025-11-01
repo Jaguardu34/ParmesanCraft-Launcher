@@ -8,13 +8,18 @@ const { ipcRenderer } = require('electron');
 import { popup, database, changePanel, accountSelect, addAccount, config, setStatus } from '../utils.js';
 
 class Login {
-    
     static id = "login";
     async init(config) {
         this.config = config;
         this.db = new database();
 
-        this.getAZauth();
+        if (typeof this.config.online == 'boolean') {
+            this.config.online ? this.getMicrosoft() : this.getCrack()
+        } else if (typeof this.config.online == 'string') {
+            if (this.config.online.match(/^(http|https):\/\/[^ "]+$/)) {
+                this.getAZauth();
+            }
+        }
         
         document.querySelector('.cancel-home').addEventListener('click', () => {
             document.querySelector('.cancel-home').style.display = 'none'
